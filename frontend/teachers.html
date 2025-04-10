@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>教师管理 - 高校排课系统</title>
+    <!-- MDUI CSS -->
+    <link rel="stylesheet" href="https://unpkg.com/mdui@1.0.2/dist/css/mdui.min.css">
+    <link rel="stylesheet" href="/css/style.css">
+</head>
+<body class="mdui-theme-primary-indigo mdui-theme-accent-pink">
+    <div class="mdui-appbar">
+        <div class="mdui-toolbar mdui-color-theme">
+            <a href="/" class="mdui-typo-headline">高校排课系统</a>
+            <div class="mdui-toolbar-spacer"></div>
+        </div>
+        <div class="mdui-tab mdui-color-theme" mdui-tab>
+            <a href="/" class="mdui-ripple">课表管理</a>
+            <a href="/courses.html" class="mdui-ripple">课程管理</a>
+            <a href="/teachers.html" class="mdui-ripple mdui-tab-active">教师管理</a>
+            <a href="/classrooms.html" class="mdui-ripple">教室管理</a>
+        </div>
+    </div>
+
+    <div class="mdui-container">
+        <div class="mdui-row-xs-1">
+            <div class="mdui-col">
+                <div class="mdui-card">
+                    <div class="mdui-card-primary">
+                        <div class="mdui-card-primary-title">导入教师数据</div>
+                        <div class="mdui-card-primary-subtitle">支持CSV格式</div>
+                    </div>
+                    <div class="mdui-card-content">
+                        <div class="mdui-row-xs-1">
+                            <div class="mdui-col">
+                                <input type="file" id="csvFile" accept=".csv" style="display: none;">
+                                <button class="mdui-btn mdui-btn-raised mdui-ripple" onclick="document.getElementById('csvFile').click()">
+                                    <i class="mdui-icon material-icons">file_upload</i>
+                                    选择文件
+                                </button>
+                                <span id="fileName" class="mdui-m-l-2"></span>
+                            </div>
+                        </div>
+                        <div class="mdui-row-xs-1 mdui-m-t-2">
+                            <div class="mdui-col">
+                                <button class="mdui-btn mdui-btn-raised mdui-ripple mdui-color-theme-accent" onclick="importTeachers()">
+                                    <i class="mdui-icon material-icons">cloud_upload</i>
+                                    导入数据
+                                </button>
+                            </div>
+                        </div>
+                        <div class="mdui-row-xs-1 mdui-m-t-2">
+                            <div class="mdui-col">
+                                <p class="mdui-typo-body-2">CSV文件格式：name,title,department</p>
+                                <p class="mdui-typo-body-2">示例：张三,教授,计算机科学系</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="mdui-row-xs-1 mdui-m-t-2">
+            <div class="mdui-col">
+                <div class="mdui-card">
+                    <div class="mdui-card-primary">
+                        <div class="mdui-card-primary-title">教师列表</div>
+                        <div class="mdui-card-primary-subtitle">管理所有教师信息</div>
+                    </div>
+                    <div class="mdui-card-content">
+                        <div class="mdui-table-fluid">
+                            <table class="mdui-table mdui-table-hoverable">
+                                <thead>
+                                    <tr>
+                                        <th>姓名</th>
+                                        <th>职称</th>
+                                        <th>院系</th>
+                                        <th>操作</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="teacherList">
+                                    <!-- 教师列表将通过JavaScript动态加载 -->
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 编辑教师对话框 -->
+    <div class="mdui-dialog" id="editTeacherDialog">
+        <div class="mdui-dialog-title">编辑教师</div>
+        <div class="mdui-dialog-content">
+            <form class="mdui-form">
+                <input type="hidden" id="editTeacherId">
+                <div class="mdui-textfield">
+                    <label class="mdui-textfield-label">姓名</label>
+                    <input class="mdui-textfield-input" type="text" id="editTeacherName" required/>
+                </div>
+                <div class="mdui-textfield">
+                    <label class="mdui-textfield-label">职称</label>
+                    <input class="mdui-textfield-input" type="text" id="editTeacherTitle"/>
+                </div>
+                <div class="mdui-textfield">
+                    <label class="mdui-textfield-label">所属院系</label>
+                    <input class="mdui-textfield-input" type="text" id="editTeacherDepartment"/>
+                </div>
+            </form>
+        </div>
+        <div class="mdui-dialog-actions">
+            <button class="mdui-btn mdui-ripple" mdui-dialog-cancel>取消</button>
+            <button class="mdui-btn mdui-ripple" onclick="saveTeacher()">保存</button>
+        </div>
+    </div>
+
+    <!-- 确认删除对话框 -->
+    <div class="mdui-dialog" id="confirmDialog">
+        <div class="mdui-dialog-title">确认删除</div>
+        <div class="mdui-dialog-content">确定要删除这位教师吗？此操作不可恢复。</div>
+        <div class="mdui-dialog-actions">
+            <button class="mdui-btn mdui-ripple" mdui-dialog-cancel>取消</button>
+            <button class="mdui-btn mdui-ripple" mdui-dialog-confirm>确定</button>
+        </div>
+    </div>
+
+    <!-- MDUI JavaScript -->
+    <script src="https://unpkg.com/mdui@1.0.2/dist/js/mdui.min.js"></script>
+    <!-- Axios -->
+    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+    <!-- 自定义 JavaScript -->
+    <script src="/js/api.js"></script>
+    <script src="/js/teachers.js"></script>
+</body>
+</html> 

@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>教室管理 - 高校排课系统</title>
+    <!-- MDUI CSS -->
+    <link rel="stylesheet" href="https://unpkg.com/mdui@1.0.2/dist/css/mdui.min.css">
+    <link rel="stylesheet" href="/css/style.css">
+</head>
+<body class="mdui-theme-primary-indigo mdui-theme-accent-pink">
+    <div class="mdui-appbar">
+        <div class="mdui-toolbar mdui-color-theme">
+            <a href="/" class="mdui-typo-headline">高校排课系统</a>
+            <div class="mdui-toolbar-spacer"></div>
+        </div>
+        <div class="mdui-tab mdui-color-theme" mdui-tab>
+            <a href="/" class="mdui-ripple">课表管理</a>
+            <a href="/courses.html" class="mdui-ripple">课程管理</a>
+            <a href="/teachers.html" class="mdui-ripple">教师管理</a>
+            <a href="/classrooms.html" class="mdui-ripple mdui-tab-active">教室管理</a>
+        </div>
+    </div>
+
+    <div class="mdui-container">
+        <div class="mdui-row-xs-1">
+            <div class="mdui-col">
+                <div class="mdui-card">
+                    <div class="mdui-card-primary">
+                        <div class="mdui-card-primary-title">导入教室数据</div>
+                        <div class="mdui-card-primary-subtitle">支持CSV格式</div>
+                    </div>
+                    <div class="mdui-card-content">
+                        <div class="mdui-row-xs-1">
+                            <div class="mdui-col">
+                                <input type="file" id="csvFile" accept=".csv" style="display: none;">
+                                <button class="mdui-btn mdui-btn-raised mdui-ripple" onclick="document.getElementById('csvFile').click()">
+                                    <i class="mdui-icon material-icons">file_upload</i>
+                                    选择文件
+                                </button>
+                                <span id="fileName" class="mdui-m-l-2"></span>
+                            </div>
+                        </div>
+                        <div class="mdui-row-xs-1 mdui-m-t-2">
+                            <div class="mdui-col">
+                                <button class="mdui-btn mdui-btn-raised mdui-ripple mdui-color-theme-accent" onclick="importClassrooms()">
+                                    <i class="mdui-icon material-icons">cloud_upload</i>
+                                    导入数据
+                                </button>
+                            </div>
+                        </div>
+                        <div class="mdui-row-xs-1 mdui-m-t-2">
+                            <div class="mdui-col">
+                                <p class="mdui-typo-body-2">CSV文件格式：name,capacity,building</p>
+                                <p class="mdui-typo-body-2">示例：101,50,教学楼A</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="mdui-row-xs-1 mdui-m-t-2">
+            <div class="mdui-col">
+                <div class="mdui-card">
+                    <div class="mdui-card-primary">
+                        <div class="mdui-card-primary-title">教室列表</div>
+                        <div class="mdui-card-primary-subtitle">管理所有教室信息</div>
+                    </div>
+                    <div class="mdui-card-content">
+                        <div class="mdui-table-fluid">
+                            <table class="mdui-table mdui-table-hoverable">
+                                <thead>
+                                    <tr>
+                                        <th>教室名称</th>
+                                        <th>容量</th>
+                                        <th>所在建筑</th>
+                                        <th>操作</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="classroomList">
+                                    <!-- 教室列表将通过JavaScript动态生成 -->
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- MDUI JavaScript -->
+    <script src="https://unpkg.com/mdui@1.0.2/dist/js/mdui.min.js"></script>
+    <!-- Axios -->
+    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+    <!-- 自定义 JavaScript -->
+    <script src="/js/api.js"></script>
+    <script src="/js/classrooms.js"></script>
+</body>
+</html> 
