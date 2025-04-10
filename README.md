@@ -15,9 +15,10 @@
 ### 前端
 - MDUI
 - Axios
-- 原生 JavaScript
+- HTML/CSS/JavaScript
 
 ### 后端
+- Python
 - FastAPI
 - SQLAlchemy
 - MySQL
@@ -26,7 +27,7 @@
 
 1. 克隆项目
 ```bash
-git clone [项目地址]
+git clone https://github.com/yzxoi/course-scheduling-system.git
 cd course_scheduling_system
 ```
 
@@ -75,8 +76,11 @@ uvicorn main:app --reload
 
 ## 开发计划
 
+- [x] 前后端框架搭建
+- [ ] 引入教师偏好
+- [ ] 初代算法接入
 - [ ] 优化排课算法
-- [ ] 添加用户认证
+- [ ] 支持多用户管理
 - [ ] 支持多学期管理
 - [ ] 添加数据导出功能
 
